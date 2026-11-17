@@ -1,0 +1,18 @@
+Zero Zero UFO: controls
+=======================
+
+From the author's read-me (ReadMe-ZeroZeroUFO):
+
+  Cursor keys or W A S D   fly the UFO
+  Space or Z               tractor beam: lift cows (they mend your armour)
+                           and soldiers
+  Return or X              shoot the way you are flying
+                           (beam and shoot together shoots down, with the
+                           first weapon)
+  F1                       help screen
+  F2                       set up keyboard, mouse or joystick
+  Esc or F10               quit
+  Space                    skip the intro screens
+
+Kill every enemy to reach the next wave. Touching the ground hurts.
+The settings are kept in the drawer's User drawer, User/game.cfg.

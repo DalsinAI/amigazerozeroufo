@@ -1,0 +1,62 @@
+# Zero Zero UFO for GFOS: 68040, libnix, soft float, Allegro 4 from
+# gfopenallegro (allegro4.library on acgame.library, 8-bit), both in the
+# drawer's Libs/ (package/build-amiga.sh builds them at the commits it pins).
+#   make -f amiga/Makefile.amigaos PREFIX=<stove>/prefix A4=<gfopenallegro/allegro4> A4OUT=<its build> ACGOUT=<acgame build>
+# Copyright (c) 2026 AmiCradle Team. MIT, as Zero Zero UFO.
+PREFIX ?= $(HOME)/AmiCradle/kitchen/stoves/os32-gcc16-open6/prefix
+A4 ?= ../gfopenallegro/allegro4
+A4OUT ?= $(A4)/build-amiga
+ACGOUT ?= ../acgame/build-amiga
+CXX = $(PREFIX)/bin/m68k-amigaos-g++
+STRIP = $(PREFIX)/bin/m68k-amigaos-strip
+NAME = ZeroZeroUFO
+BUILD ?= build/amigaos
+DIR = $(BUILD)/$(NAME)
+# the header names the DOS sources use, in any case (amiga/tools/dos_includes.py)
+INC = $(BUILD)/include
+
+# upstream's sources (MAKEFILE: SRC/*.cpp, any case)
+SRCS = $(wildcard SRC/*.CPP SRC/*.cpp) amiga/amiga_start.cpp
+OBJS = $(patsubst %,$(BUILD)/obj/%.o,$(SRCS))
+
+SOFT = -specs=$(A4)/specs/m68k-soft-m68040.specs
+CXXFLAGS = -noixemul -m68040 $(SOFT) -std=gnu++17 -O2 -fomit-frame-pointer \
+	-Wall -Wno-unused -Wno-sign-compare -Wno-write-strings \
+	-I$(INC) -I$(A4)/include
+LIBS = $(A4OUT)/liballeg.a -lpthread -latomic -lm
+
+all: $(DIR)/$(NAME) package
+
+$(INC)/.done: $(wildcard INCLUDE/*) amiga/tools/dos_includes.py
+	python3 amiga/tools/dos_includes.py INCLUDE $(INC) SRC INCLUDE
+
+$(BUILD)/$(NAME).debug: $(OBJS)
+	$(CXX) -noixemul -m68040 $(SOFT) -o $@ $(OBJS) $(LIBS)
+
+$(DIR)/$(NAME): $(BUILD)/$(NAME).debug
+	@mkdir -p $(DIR)
+	$(STRIP) -o $@ $<
+
+$(BUILD)/obj/%.o: % $(INC)/.done
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXXFLAGS) -x c++ -c -o $@ $<
+
+# The drawer: the game, the author's datafiles (BIN/) as they are, Libs/
+# with allegro4.library and acgame.library, the read-mes and the icons.
+package: $(DIR)/$(NAME)
+	mkdir -p $(DIR)/Libs $(DIR)/User
+	for f in BIN/*.DAT BIN/*.dat; do cp "$$f" $(DIR)/; done
+	cp $(A4OUT)/allegro4.library $(ACGOUT)/acgame.library $(DIR)/Libs/
+	cp AMIGA_PORT.md $(DIR)/ReadMe
+	cp BIN/README.TXT $(DIR)/ReadMe-ZeroZeroUFO
+	cp LICENSE.TXT $(DIR)/LICENSE.txt
+	cp amiga/Controls amiga/Licences.txt $(DIR)/
+	cp amiga/icons/$(NAME).info amiga/icons/ReadMe.info $(DIR)/
+	for f in ReadMe-ZeroZeroUFO LICENSE.txt Controls Licences.txt; do cp amiga/icons/ReadMe.info $(DIR)/$$f.info; done
+	cp amiga/icons/Data.info $(DIR)/User.info
+	cp amiga/icons/$(NAME)-drawer.info $(BUILD)/$(NAME).info
+	cp amiga/Install-$(NAME) amiga/Install-$(NAME).info $(BUILD)/
+
+clean:
+	rm -rf $(BUILD)
+.PHONY: all package clean

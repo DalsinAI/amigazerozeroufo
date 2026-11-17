@@ -1,0 +1,19 @@
+Zero Zero UFO: licences
+=======================
+
+The game: Zero Zero UFO v0.2022.11.24, (c) 2022 Alvaro "Krono" Gonzalez
+Ferrer (Kronoman), from github.com/alvarogonzalezferrer/zerozeroufo (the
+author's own repository) at commit
+c43cc93aa3b209cb2b24cd0de93d27abff33271c.
+
+- The game, its code and data (the .dat files): MIT licence
+  (LICENSE.txt). The port's changes to the code are under it too; the
+  source of this build is in DalsinAI/amigazerozeroufo on GitHub.
+- Libs/allegro4.library (DalsinAI/gfopenallegro) and Libs/acgame.library
+  (DalsinAI/acgame): MIT, Copyright (c) 2026 AmiCradle Team. They are our
+  own Allegro 4 and game libraries, not Allegro's code.
+- The Amiga port's own files (amiga/, AMIGA_PORT.md, package/, tools/,
+  tests/) are MIT like the game, Copyright (c) 2026 AmiCradle Team. The
+  GlowIcons are drawn from the game's own UFO sprite (ufo.dat).
+
+Designed, tested and delivered by The AmiCradle Team.

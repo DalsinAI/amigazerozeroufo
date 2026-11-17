@@ -31,7 +31,12 @@
 #include "logger.h"
 
 // default configuration -- setup
+#ifdef __amigaos__
+// GFOS: the settings go in the game drawer's User drawer
+const char *HardwareManager::configFilename = "User/game.cfg";
+#else
 const char *HardwareManager::configFilename = "game.cfg";
+#endif
 
 int HardwareManager::screenW = 320;
 int HardwareManager::screenH = 200;

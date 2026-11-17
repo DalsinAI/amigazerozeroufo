@@ -37,3 +37,5 @@ BIN/LOG.TXT
 BIN/GAME.CFG
 SRC/RH_OPT.GDT
 SRC/RH_OPT.GPR
+build/
+build-amiga-package/

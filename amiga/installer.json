@@ -1,0 +1,16 @@
+{
+  "name": "ZeroZeroUFO",
+  "version": "0.2022.11.24-gfos1",
+  "drawer": "ZeroZeroUFO",
+  "program": "ZeroZeroUFO",
+  "cpu": "68040",
+  "fpu": false,
+  "space": 12000000,
+  "modules": [],
+  "keep": [
+    "User"
+  ],
+  "parent": "Work:Games",
+  "badge": "icons/art/zeroufo.png",
+  "script": "Install-ZeroZeroUFO"
+}
